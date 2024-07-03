@@ -14,7 +14,7 @@ const Peoplelist = () => {
 
     useEffect(() => {
         const getUsers = async () => {
-            const res = await axios.get('http://localhost:4000/api/user/getUsers')
+            const res = await axios.get('https://chat-app-backend-uep3.onrender.com/api/user/getUsers')
             if (res.data.status === 'okay') {
                 setchatUsers(res.data.chatUsers)
             } else {

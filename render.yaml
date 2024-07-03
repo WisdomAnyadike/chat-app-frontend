@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: my-react-app
+    env: static
+    static_publish_path: public
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production

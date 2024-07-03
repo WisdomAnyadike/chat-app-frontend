@@ -16,7 +16,7 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const res = await axios.post('http://localhost:4000/api/user/login', { username: Username, password: Password })
+        const res = await axios.post('https://chat-app-backend-uep3.onrender.com/api/user/login', { username: Username, password: Password })
 
         if (res.data.status === 'okay') {
            alert('login success')

@@ -15,7 +15,7 @@ const Chatbox = () => {
 
     useEffect(()=> {
         const recieveText = async()=> {
-            const res = await axios.get(`http://localhost:4000/api/chatroom/1234` )
+            const res = await axios.get(`https://chat-app-backend-uep3.onrender.com/api/chatroom/1234` )
             if(res.data.status === 'okay'){
                setmessages(res.data.chats)
             }else{
