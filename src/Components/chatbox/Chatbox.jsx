@@ -27,7 +27,7 @@ const Chatbox = () => {
 
         const receiveID = async () => {
             try {
-                const res = await axios.post(`${endPoint}/api/chatroom/getid`, { name: user.name, user_texted: username });
+                const res = await axios.post(`${endPoint}/api/chatroom/getid`, { name: username, user_texted: user.name });
                 if (res.data.status === 'okay') {
                     console.log(res.data.room_id);
                     setID(res.data.room_id);
