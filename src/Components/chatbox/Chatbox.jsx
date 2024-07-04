@@ -27,8 +27,9 @@ const Chatbox = () => {
 
         const receiveID = async () => {
             try {
-                const res = await axios.post(`${endPoint}/api/chatroom/getID`, { name: user.name, user_texted: username });
+                const res = await axios.post(`${endPoint}/api/chatroom/getid`, { name: user.name, user_texted: username });
                 if (res.data.status === 'okay') {
+                    console.log(res.data.room_id);
                     setID(res.data.room_id);
                 } else if (res.data.status === 'notokay') {
                     const newID = generateID();
@@ -44,6 +45,7 @@ const Chatbox = () => {
 
         receiveID();
     }, [username, user.name]);
+
 
     useEffect(() => {
         if (id) {
