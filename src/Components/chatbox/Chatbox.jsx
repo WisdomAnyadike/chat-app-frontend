@@ -1,7 +1,8 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
+import { API_ENDPOINT } from '../../services/config';
+import { receiveID , receiveText } from '../../services/chatservice';
 
 let socket;
 
@@ -14,61 +15,40 @@ const Chatbox = () => {
     const [id, setID] = useState('');
     const [idFetched, setIdFetched] = useState(false);
 
-    const endPoint = 'https://chat-app-backend-uep3.onrender.com';
-
     useEffect(() => {
-        const generateID = () => {
-            let id = '';
-            for (let index = 0; index < 6; index++) {
-                id += Math.floor(Math.random() * 10);
-            }
-            return id;
-        };
-
-        const receiveID = async () => {
+        const fetchID = async () => {
             try {
-                const res = await axios.post(`${endPoint}/api/chatroom/getid`, { name: username, user_texted: user.name });
-                if (res.data.status === 'okay') {
-                    console.log(res.data.room_id);
-                    setID(res.data.room_id);
-                } else if (res.data.status === 'notokay') {
-                    const newID = generateID();
-                    setID(newID);
-                } else {
-                    alert('Could not get ID');
-                }
+                const roomId = await receiveID(username, user.name);
+                setID(roomId);
                 setIdFetched(true);
             } catch (error) {
                 console.error('Error fetching ID:', error);
             }
         };
 
-        receiveID();
+        fetchID();
     }, [username, user.name]);
-
 
     useEffect(() => {
         if (id) {
-            const receiveText = async () => {
+            const fetchText = async () => {
                 try {
-                    const res = await axios.get(`${endPoint}/api/chatroom/${id}`);
-                    if (res.data.status === 'okay') {
-                        setMessages(res.data.chats);
-                    } else {
-                        alert('Could not get chats');
-                    }
+                    const chats = await receiveText(id);
+                    setMessages(chats);
                 } catch (error) {
                     console.error('Error fetching chats:', error);
                 }
             };
 
-            receiveText();
+            fetchText();
         }
     }, [id]);
 
+   
+
     useEffect(() => {
         if (idFetched) {
-            socket = io(endPoint);
+            socket = io(API_ENDPOINT);
             socket.emit('join', { name: user.name, user_id: user.id, user_texted: username, room_id: id });
 
             socket.on('message', (messages) => {
@@ -80,7 +60,7 @@ const Chatbox = () => {
                 socket.off();
             };
         }
-    }, [endPoint, id, idFetched, user.id, user.name, username]);
+    }, [ id, idFetched, user.id, user.name, username]);
 
     const sendMessage = () => {
         if (message) {

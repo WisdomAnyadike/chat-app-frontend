@@ -1,30 +1,36 @@
 import React from 'react'
 import '../login/Login.scss'
-import axios from 'axios'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { LoginHelper } from '../../services/loginservice';
+import { setToken } from '../Redux/tokenSlice';
+import { useDispatch } from 'react-redux'
+
 
 
 
 const Login = () => {
+    const dispatch = useDispatch()
     const [Username, setUsername] = useState('')
     const [Password, setPassword] = useState('')
-
-
 
     const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const res = await axios.post('https://chat-app-backend-uep3.onrender.com/api/user/login', { username: Username, password: Password })
+        try {
+            const {user , token } = await LoginHelper(Username, Password);
+            if (user && token) {
+                console.log(user);
+                console.log(token);
+                alert('Login successful');
+                localStorage.setItem('userObj', JSON.stringify(user));
+                dispatch(setToken(token))
+                navigate('/createProfile');
+            }
 
-        if (res.data.status === 'okay') {
-           alert('login success')
-           localStorage.setItem( 'userObj' , JSON.stringify(res.data.user) )
-            navigate('/chat')
-
-        } else {
-            alert('invalid credentials')  
+        } catch (error) {
+            alert(error.message);
         }
 
     }
@@ -37,7 +43,7 @@ const Login = () => {
                 </div>
 
                 <main className="form-signin">
-                
+
                     <h1 className="h3">Login</h1>
 
                     <form action="" onSubmit={(e) => handleSubmit(e)}>
