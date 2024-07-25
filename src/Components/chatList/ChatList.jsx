@@ -98,8 +98,10 @@ const ChatList = () => {
     }, [dreamId])
 
     let move = (e) => {
-        e.target.classList.add('active')
-        navigate(`/dashboard/Inbox/${e.target.id}/${userTexting._id}`)
+        if (chatUsers) {
+            e.target.classList.add('active')
+            navigate(`/dashboard/Inbox/${e.target.id}/${userTexting._id}`)
+        }
         // socket.emit('create-room', '1234')
     }
 
