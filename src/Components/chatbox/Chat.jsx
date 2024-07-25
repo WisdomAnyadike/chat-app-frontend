@@ -20,7 +20,7 @@ const ChatApp = () => {
     useEffect(() => {
         const fetchID = async () => {
             try {
-                const roomId = await receiveID(user2, username);
+                const roomId = await receiveID( username , user2);
                 setID(roomId);
                 setIdFetched(true);
             } catch (error) {
