@@ -44,12 +44,13 @@ function App() {
           <Route path='/dashboard/Notifications' element={<DashboardNotifications />} />
           <Route path='/dashboard/Admin' element={<Admin />} />
           <Route path='/dashboard/jobProfile' element={<JobProfile />} />
-
-        </Route>
-        <Route path='/dashboard/Inbox' element={<DashboardInbox />} >
+          <Route path='/dashboard/Inbox' element={<DashboardInbox />} >
           <Route index element={<Chatbox />} />
           <Route path="/dashboard/Inbox/:userTexted/:userTexting" element={<ChatApp />} />
         </Route>
+
+        </Route>
+        
 
         <Route path='/dashboard/resume/:Id' element={<Resume />} />
 
