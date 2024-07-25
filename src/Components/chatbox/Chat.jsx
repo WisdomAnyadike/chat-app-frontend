@@ -33,7 +33,7 @@ const ChatApp = () => {
         };
 
         fetchID();
-    }, [username, user2]);
+    }, [ user2 , username]);
 
     useEffect(() => {
         if (id) {
