@@ -28,8 +28,16 @@ const DashboardProfile = () => {
                 }
 
             } catch (error) {
-                toast.error(error)
                 setLoading(false)
+                if (error.response.data.message === 'Error Verifying Token') {
+                    toast.error('session expired')
+                    setTimeout(() => {
+                        navigate('/')
+                    }, 5000)
+                    return
+                }
+                toast.error(error)
+            
             }
 
         }

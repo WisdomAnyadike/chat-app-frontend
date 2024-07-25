@@ -19,3 +19,22 @@ export const LoginHelper = async (Username, Password) => {
     }
 
 }
+
+
+export const signUpHelper = async (username, email, password) => {
+    try {
+        const res = await axios.post(`${API_ENDPOINT}/api/user/signUp`, { username, email, password })
+
+        if (res.data.status === 'okay') {
+            return { user: res.data.user }
+
+        } else {
+            throw new Error('invalid credentials')
+        }
+
+    } catch (error) {
+        console.error('Error loggin in:', error);
+        throw error;
+    }
+
+} 

@@ -31,11 +31,7 @@ const Peoplelist = () => {
     
 
 
-    let move = (e) => {
-        e.target.classList.add('active')
-        navigate(`/chat/${e.target.id}`)
-        // socket.emit('create-room', '1234')
-    }
+   
     return (
         <div id="plist" class="people-list">
             <div class="input-group">

@@ -7,13 +7,15 @@ import { API_ENDPOINT } from '../../services/config';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { setDreamName, setProfileId, setProfileRole, setRoleDescription } from '../Redux/FirstProfileSlice';
+import Loader from '../loader/Loader';
 
 const CreateProfile = () => {
     const token = useSelector(state => state.tokenSlice.token);
     const navigate = useNavigate();
-    const [chooseProfile, setChooseProfile] = useState(false);
+    // const [chooseProfile, setChooseProfile] = useState(false);
     const profileId = useSelector(state => state.firstProfileSlice.profileObj.profileId);
     const [loading, setLoading] = useState(true);
+    const [loadButton, setloadButton] = useState(false)
 
     const dispatch = useDispatch();
 
@@ -44,8 +46,12 @@ const CreateProfile = () => {
                         dispatch(setProfileRole(res.data.Profile.role.roleName))
                         dispatch(setRoleDescription(''))
                         dispatch(setDreamName(''))
-                        navigate('/description')
+                        res.data.Profile.role.roleName === 'Concept Innovator' ? navigate('/description') : navigate('/dashboard')
                     } else {
+                        dispatch(setProfileId(res.data.Profile._id))
+                        dispatch(setProfileRole(res.data.Profile.role.roleName))
+                        dispatch(setRoleDescription(res.data.Profile.setRoleDescription))
+                        // dispatch(setDreamName(res.data.Profile.))
                         navigate('/dashboard')
                     }
                 } else {
@@ -53,37 +59,51 @@ const CreateProfile = () => {
                 }
                 setLoading(false); // Set loading to false after terms check
             } catch (error) {
-                console.error(error);
-                toast.error('An error occurred while checking terms.');
+                if (error.response.data.message === 'Error Verifying Token') {
+                    toast.error('session expired')
+                    setTimeout(() => {
+                        navigate('/')
+                    }, 5000)
+                } else {
+                    console.error(error);
+                    toast.error('An error occurred while checking terms.');
+                }
                 setLoading(false); // Set loading to false after error
             }
         };
 
         if (token) {
             checkTerms();
+        }else{
+            toast.error('You\'re not authorised')
+            setTimeout(() => {
+                navigate('/')
+            }, 3000)
         }
+        
     }, [token, navigate, dispatch]);
 
-    useEffect(() => {
-        const checkProfile = async () => {
-            if (profileId && !loading) { // Ensure this runs only after loading is complete
-                try {
-                    const res = await axios.get(`${API_ENDPOINT}/api/user/checkProfile/${profileId}`);
-                    if (res.data.status) {
-                        setChooseProfile(true);
-                    }
-                } catch (error) {
-                    console.error(error);
-                }
-            }
-        };
+    // useEffect(() => {
+    //     const checkProfile = async () => {
+    //         if (profileId && !loading) { // Ensure this runs only after loading is complete
+    //             try {
+    //                 const res = await axios.get(`${API_ENDPOINT}/api/user/checkProfile/${profileId}`);
+    //                 if (res.data.status) {
+    //                     setChooseProfile(true);
+    //                 }
+    //             } catch (error) {
+    //                 console.error(error);
+    //             }
+    //         }
+    //     };
 
-        checkProfile();
-    }, [profileId, loading]);
+    //     checkProfile();
+    // }, [profileId, loading]);
 
     const [value, setValue] = useState('');
 
     const handleSubmit = async () => {
+        setloadButton(true)
         try {
             const res = await axios.post(`${API_ENDPOINT}/api/user/createProfile`, { profileName: value }, {
                 headers: {
@@ -92,6 +112,7 @@ const CreateProfile = () => {
                 }
             });
             if (res.data.status === 'okay') {
+                setloadButton(false)
                 toast.success(res.data.message);
                 dispatch(setProfileId(res.data.profileId));
 
@@ -99,20 +120,22 @@ const CreateProfile = () => {
                     navigate('/chooseTeam');
                 }, 3000);
             } else {
+                setloadButton(false)
                 toast.error(res.data.message);
             }
         } catch (error) {
+            setloadButton(false)
             toast.error(error.message);
         }
     };
 
     if (loading) {
-        return <div>Loading...</div>; // Add a loading state
+        return <Loader props={'Dreams Loading...'} />; // Add a loading state
     }
 
-    if (chooseProfile) {
-        return <div>Profile completed <Link to='/chooseTeam'><button>Go forward</button></Link></div>;
-    }
+    // if (chooseProfile) {
+    //     return <Loader props={`Please wait... <Link to='/chooseTeam'> <button>Go forward</button> </Link>`} />    
+    // }
 
     return (
         <DashboardNav props='Profile'>
@@ -123,8 +146,10 @@ const CreateProfile = () => {
                     <div className="d-flex justify-content-center px-5">
                         <div className="search">
                             <input value={value} onChange={(e) => setValue(e.target.value)} type="text" className="search-input" placeholder="Type here..." />
-                            <button onClick={handleSubmit} className='search-icon app-content-headerButton' style={{ width: 'fit-content' }}>
-                                <b className='border-0' style={{ fontSize: '14px', fontWeight: '500' }}>Create</b>
+                            <button onClick={handleSubmit} disabled={loadButton} className='search-icon app-content-headerButton' style={{ width: 'fit-content' }}>
+                                {loadButton ? <div class="spinner-border text-light" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div> : <b className='border-0' style={{ fontSize: '14px', fontWeight: '500' }}>Create</b>}
                             </button>
                         </div>
                     </div>

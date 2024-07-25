@@ -16,14 +16,18 @@ import Popup from './Components/pop/popup'
 import Description from './Components/Progress/description'
 import Admin from './Components/dashboard/Admin'
 import JobProfile from './Components/dashboard/JobProfile'
+import { useSelector } from 'react-redux'
+import Auth from './Components/auth/Auth'
+import Resume from './Components/resume/Resume'
+import ChatApp from './Components/chatbox/Chat'
 
 function App() {
-
+  const roleName = useSelector(state => state.firstProfileSlice.profileObj.roleName)
 
   return (
     <>
       <Routes>
-        <Route path='/' element={<Login />} />
+        <Route path='/' element={<Auth />} />
         <Route path='/createProfile' element={<CreateProfile />} />
         <Route path='/chooseTeam' element={<Progress />} />
         <Route path='/description' element={<Description />} />
@@ -33,15 +37,21 @@ function App() {
           <Route path="/chat/:name" element={<Chatbox />} />
         </Route>
         <Route path="/dashboard" element={<Dashboard />} >
-          <Route index element={<DashboardHome />} />
+          {roleName === 'Concept Innovator' ? <Route index element={<DashboardProfile />} /> : <Route index element={<DashboardProduct />} />}
           <Route path='/dashboard/Ideas' element={<DashboardProduct />} />
           <Route path='/dashboard/Profiles' element={<DashboardProfile />} />
-          <Route path='/dashboard/Inbox' element={<DashboardInbox />} />
+
           <Route path='/dashboard/Notifications' element={<DashboardNotifications />} />
-          <Route path='/dashboard/Admin' element={<Admin/>} />
-          <Route path='/dashboard/jobProfile' element={<JobProfile/>} />
+          <Route path='/dashboard/Admin' element={<Admin />} />
+          <Route path='/dashboard/jobProfile' element={<JobProfile />} />
+
+        </Route>
+        <Route path='/dashboard/Inbox' element={<DashboardInbox />} >
+          <Route index element={<ChatApp />} />
+          <Route path="/dashboard/Inbox/:userTexted/:userTexting" element={<ChatApp />} />
         </Route>
 
+        <Route path='/dashboard/resume/:Id' element={<Resume />} />
 
         <Route path="/popup" element={<Popup />} />
         <Route path="*" element={''} />

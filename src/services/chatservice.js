@@ -29,7 +29,7 @@ export const receiveID = async (username, userName) => {
 
 export const receiveText = async (id) => {
     try {
-        const res = await axios.get(`${endPoint}/api/chatroom/${id}`);
+        const res = await axios.get(`${API_ENDPOINT}/api/chatroom/${id}`);
         if (res.data.status === 'okay') {
             return res.data.chats;
         } else {

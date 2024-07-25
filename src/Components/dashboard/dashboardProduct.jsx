@@ -1,17 +1,24 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import DashboardNav from './dashboardNav';
 import { useEffect, useState } from 'react';
 import { API_ENDPOINT } from '../../services/config'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
-import { toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 import Tablehead from '../Tableheader/Tablehead'
+
 
 const DashboardProduct = () => {
     const [data, setData] = useState([])
     const [isLoading, setLoading] = useState(true)
+    const [isLoadingDream, setLoadingDream] = useState(false)
+    const [profile, setProfile] = useState(null)
     const token = useSelector(state => state.tokenSlice.token)
     const profileObj = useSelector(state => state.firstProfileSlice.profileObj)
+    const buttonRef = useRef()
+    const [doProfile, setDoProfile] = useState(false)
+
+
 
 
     useEffect(() => {
@@ -29,8 +36,15 @@ const DashboardProduct = () => {
                 }
 
             } catch (error) {
-                toast.error(error)
                 setLoading(false)
+                if (error.response.data.message === 'Error Verifying Token') {
+                    toast.error('session expired')
+                    setTimeout(() => {
+                        navigate('/')
+                    }, 5000)
+                    return
+                }
+                toast.error(error)
             }
 
         }
@@ -73,6 +87,78 @@ const DashboardProduct = () => {
             listButton.removeEventListener("click", handleListClick);
         };
     }, []);
+
+
+
+    useEffect(() => {
+        const getProfile = async () => {
+            try {
+                const res = await axios.get(`${API_ENDPOINT}/api/user/getProfile/${profileObj.profileId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if (res.data.status === 'okay') {
+                    setProfile(res.data.profile)
+
+                    return res.data.profile.isProfileSet
+                } else {
+                    return false
+                }
+            } catch (error) {
+                return false
+            }
+        };
+
+        getProfile()
+    }, [doProfile])
+
+
+
+    const applyToDream = async (dreamId) => {
+        console.log('working');
+        setDoProfile(true)
+        let btnId = document.getElementById(`${dreamId}`)
+        btnId.innerHTML = `<div className="spinner-border text-light" role="status">
+            <span className="visually-hidden">Loading...</span>
+        </div>`
+
+        if (profile && profile.isProfileSet === true) {
+            console.log('here');
+            setLoadingDream(true)
+            const { portfolioUrl, cvUrl, userId, coverLetter } = profile
+            try {
+                const res = await axios.post(`${API_ENDPOINT}/api/user/applytodream`, { dreamId, profileId: profileObj.profileId, portfolioUrl, cvUrl, userId, coverLetter }, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        "content-type": "application/json"
+                    }
+                })
+                if (res.data.status === 'okay') {
+                    setLoadingDream(false)
+                    btnId.innerHTML = `Apply to Dream`
+                    toast.success('applied successfully')
+                } else {
+                    btnId.innerHTML = `Apply to Dream`
+                    toast.error('error applying')
+                }
+
+            } catch (error) {
+                setLoadingDream(false)
+                btnId.innerHTML = `Apply to Dream`
+                toast.error(error.response?.data?.message || 'An error occurred while applying')
+            }
+
+        } else {
+            console.log('there');
+            alert('set job details before you apply')
+            btnId.innerHTML = `Apply to Dream`
+
+        }
+
+
+    }
 
     return (
         <DashboardNav props={'Dreams'}>
@@ -138,12 +224,20 @@ const DashboardProduct = () => {
 
                             <div class="product-cell category"><span class="cell-label">Members:</span>{data?.dreamMembers.length}</div>
 
-                            <div class="product-cell category"><span class="cell-label">Description:</span>{'*'.repeat(data?.description.length)}</div>
+                            <div class="product-cell category"><span class="cell-label">Description:</span>{'*'.repeat((data?.description.length > 14) ? 14 : data?.description.length )}</div>
+                            {/* 
+
+                            <div class="product-cell price"><button disabled={isLoadingDream} onClick={() => applyToDream(data._id)} style={{ height: '45px' , width:"150px" }} class="d-flex align-items-center justify-content-center btn btn-warning"> {isLoadingDream ? <div className="spinner-border text-light" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div> : 'Apply to Dream'} </button></div>
+                             */}
 
 
-                            <div class="product-cell price"><button style={{ height: '30px' }} class="d-flex align-items-center justify-content-center btn btn-success"> Join dream </button></div>
+                            <div class="product-cell price"><button id={data._id} disabled={isLoadingDream} ref={buttonRef} onClick={() => applyToDream(data._id)} style={{ height: '45px', width: "150px" }} class="d-flex align-items-center justify-content-center btn btn-warning">
 
+                                Apply To Dream
 
+                            </button></div>
 
 
 
@@ -161,7 +255,7 @@ const DashboardProduct = () => {
 
 
 
-                <ToastContainer />
+
             </div>
         </DashboardNav>
     )

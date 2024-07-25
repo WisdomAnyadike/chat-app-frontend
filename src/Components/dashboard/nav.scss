@@ -1,0 +1,217 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Monoton&display=swap");
+
+
+
+a {
+	text-decoration: none;
+	outline: none;
+	color: darken($color: #fff, $amount: 80);
+}
+
+li {
+	list-style: none;
+}
+
+@keyframes hover {
+	50% {
+		transform: translateX(10px);
+	}
+}
+
+.offcanvas-menu {
+	display: none;
+	z-index: 40;
+	top: 0;
+	color: #fff;
+
+	>label {
+		top: 15px;
+		left: 30px;
+		position: fixed;
+		width: 40px;
+		height: 40px;
+		cursor: pointer;
+		transition: 0.3s ease;
+		display: flex;
+		align-items: center;
+		z-index: 9999;
+	
+	}
+
+	label {
+		span,
+		span::before,
+		span::after {
+			transition: background 0.3s, transform 0.3s;
+		}
+
+		span,
+		span::before,
+		span::after {
+			content: "";
+			position: absolute;
+			height: 3px;
+			width: 25px;
+			background: darken($color: #fff, $amount: 30);
+		}
+
+		span::before {
+			transform: translateY(-7px);
+		}
+
+		span::after {
+			transform: translateY(7px);
+		}
+	}
+
+	nav {
+		position: fixed;
+		top: 0;
+		height: 100%;
+		width: 100%;
+		left: -100%;
+		overflow: hidden;
+		background:  #ffffff;
+		transition: 0.3s ease;
+		padding: 40px 30px;
+
+		>div {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			a {
+				font-size: 1.5rem;
+				font-weight: 400;
+				display: flex;
+				align-items: center;
+				font-family: "Monoton", cursive;
+				background: linear-gradient(-90deg, #101827 30%, #151e2f 110%);
+				-webkit-text-fill-color: transparent;
+
+				i {
+					font-size: 4rem;
+					background: linear-gradient(120deg, #151e2f 30%, #101827  110%);
+					-webkit-text-fill-color: transparent;
+				}
+			}
+
+			label {
+				width: 30px;
+				height: 30px;
+				display: flex !important;
+				align-items: center;
+				justify-content: center;
+				cursor: pointer;
+				transition: 0.3s ease;
+
+				span,
+				span:before,
+				span:after {
+					background: darken($color: #fff, $amount: 70);
+				}
+			}
+		}
+
+		>ul {
+			margin-top: 30px;
+		
+
+			li {
+				cursor: pointer;
+				padding: 10px 0;
+				transform: translateX(-30px);
+				opacity: 0;
+				transition: 0.4s ease;
+				
+
+				a {
+					font-size: 1.5rem;
+					line-height: 1.5;
+					font-weight: 400;
+					color: darken($color: #fff, $amount: 80);
+					display: block;
+
+					
+				}
+
+				&:hover {
+					animation: hover 0.5s;
+				}
+			}
+		}
+	}
+
+	input[type="checkbox"] {
+		display: none;
+
+		&:checked {
+			~label {
+				opacity: 0;
+				pointer-events: none;
+			}
+
+			~nav {
+				left: 0;
+			}
+
+			~nav label span {
+				background: transparent;
+			}
+
+			~nav label span:before {
+				transform: rotate(-45deg);
+			}
+
+			~nav label span:after {
+				transform: rotate(45deg);
+			}
+
+			~nav label span:before,
+			~nav label span:after {
+				transition-delay: 0.2s;
+			}
+
+			~nav ul li {
+				opacity: 1;
+				transform: translateX(0px);
+			}
+
+			~nav ul li:nth-child(1) {
+				transition-delay: 0.1s;
+			}
+
+			~nav ul li:nth-child(2) {
+				transition-delay: 0.2s;
+			}
+
+			~nav ul li:nth-child(3) {
+				transition-delay: 0.3s;
+			}
+
+			~nav ul li:nth-child(4) {
+				transition-delay: 0.4s;
+			}
+
+			~nav ul li:nth-child(5) {
+				transition-delay: 0.5s;
+			}
+
+			~nav ul li:nth-child(6) {
+				transition-delay: 0.6s;
+			}
+
+			~nav ul li:nth-child(7) {
+				transition-delay: 0.7s;
+			}
+		}
+	}
+}
+
+
+@media (max-width:'1024px') {
+	.offcanvas-menu {
+		display: block;
+	}
+
+}
