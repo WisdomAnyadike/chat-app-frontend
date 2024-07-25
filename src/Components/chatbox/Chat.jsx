@@ -5,6 +5,7 @@ import { API_ENDPOINT } from '../../services/config';
 import { receiveID, receiveText } from '../../services/chatservice';
 import { useSelector } from 'react-redux';
 
+
 let socket;
 
 const ChatApp = () => {
@@ -16,11 +17,14 @@ const ChatApp = () => {
     const [messages, setMessages] = useState([]);
     const [id, setID] = useState('');
     const [idFetched, setIdFetched] = useState(false);
+    const [loading, setloading] = useState(true)
+   
+
 
     useEffect(() => {
         const fetchID = async () => {
             try {
-                const roomId = await receiveID( username , user2);
+                const roomId = await receiveID(username, user2);
                 setID(roomId);
                 setIdFetched(true);
             } catch (error) {
@@ -38,6 +42,8 @@ const ChatApp = () => {
                     const chats = await receiveText(id);
                     console.log(chats);
                     setMessages(chats);
+                    setloading(false)
+                    
                 } catch (error) {
                     console.error('Error fetching chats:', error);
                 }
@@ -67,9 +73,20 @@ const ChatApp = () => {
 
     const sendMessage = () => {
         if (message) {
+            setloading(false)
             socket.emit('sendmessage', message, id, () => setMessage(''));
         }
     };
+
+
+    if (loading) {
+        return <div className='d-flex align-items-center justify-content-center w-100 h-100'>
+            <div class="spinner-border text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+  
 
     return (
         <div class="app-main">

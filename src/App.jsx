@@ -47,7 +47,7 @@ function App() {
 
         </Route>
         <Route path='/dashboard/Inbox' element={<DashboardInbox />} >
-          <Route index element={<ChatApp />} />
+          <Route index element={<Chatbox />} />
           <Route path="/dashboard/Inbox/:userTexted/:userTexting" element={<ChatApp />} />
         </Route>
 

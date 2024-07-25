@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { API_ENDPOINT } from '../../services/config'
+import Loader from '../loader/Loader'
 
 
 const ChatList = () => {
@@ -17,6 +18,7 @@ const ChatList = () => {
     const [getId, setGottenId] = useState(false)
     const [Admin, setAdmin] = useState({})
     const [userTexting, setUserTexting] = useState({})
+    const [loading, setloading] = useState(true)
 
 
     useEffect(() => {
@@ -81,7 +83,9 @@ const ChatList = () => {
                     })
                     if (res.data.status === 'okay') {
                         setchatUsers(res.data.dreamMembers)
+                        setloading(false)
                         console.log(res.data.dreamMembers);
+
                     } else {
                         console.log(res.data.message);
                     }
@@ -156,6 +160,15 @@ const ChatList = () => {
         };
     }, []);
 
+
+    if (loading) {
+        return <div className='d-flex align-items-center justify-content-center w-100 h-100'>
+            <div class="spinner-border text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+
     return (
         <>
             <div class="app-profile-box">
@@ -209,8 +222,8 @@ const ChatList = () => {
                         chatUsers.filter((user) => user.userId.username !== User.username).map((user) =>
 
                             <li key={user._id} id={user._id} onClick={(e) => move(e)} class="chat-list-item">
-                                <img src="https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60" alt="chat" />
-                                <span class="chat-list-name">{user.userId.username}</span>
+                                <img id={user._id} onClick={(e) => move(e)} src="https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60" alt="chat" />
+                                <span id={user._id} onClick={(e) => move(e)} class="chat-list-name">{user.userId.username}</span>
                             </li>
 
                         )
