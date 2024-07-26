@@ -132,7 +132,7 @@ const Chatbox = () => {
     <div class="app-main">
     <div class="chat-wrapper d-flex h-100 align-items-center justify-content-around flex-column">
       
-       <h3 className='text-light mb-5'> Welcome To The Team</h3>
+       <h3 className=' mb-5' style={{ color: '#576c99'}}> Welcome To The Team</h3>
 
        {/* <h3 className='text-primary'>   </h3> */}
 

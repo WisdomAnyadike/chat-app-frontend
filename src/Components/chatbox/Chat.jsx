@@ -18,7 +18,7 @@ const ChatApp = () => {
     const [id, setID] = useState('');
     const [idFetched, setIdFetched] = useState(false);
     const [loading, setloading] = useState(true)
-   
+
 
 
     useEffect(() => {
@@ -28,12 +28,12 @@ const ChatApp = () => {
                 setID(roomId);
                 setIdFetched(true);
             } catch (error) {
-                console.error('Error fetching ID:', error);
+                alert('Error fetching ID:', error);
             }
         };
 
         fetchID();
-    }, [ user2 , username]);
+    }, [user2, username]);
 
     useEffect(() => {
         if (id) {
@@ -43,7 +43,7 @@ const ChatApp = () => {
                     console.log(chats);
                     setMessages(chats);
                     setloading(false)
-                    
+
                 } catch (error) {
                     console.error('Error fetching chats:', error);
                 }
@@ -86,7 +86,7 @@ const ChatApp = () => {
             </div>
         </div>
     }
-  
+
 
     return (
         <div class="app-main">
