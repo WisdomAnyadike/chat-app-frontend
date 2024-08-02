@@ -843,16 +843,19 @@
 
 ::-webkit-scrollbar {
     width: 8px;
+    display: none;
 }
 
 ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    display: none;
 }
 
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background: var(--scrollbar-thumb);
+    display: none;
 }
 
 @media screen and (max-width: 1025px) {

@@ -40,7 +40,14 @@ const Dashboard = () => {
                         dispatch(setProfileId(res.data.Profile._id))
                         dispatch(setProfileRole(''))
                         navigate('/chooseTeam')
-                    } else if (res.data.Profile.setRoleDescription === false && res.data.Profile.setAcceptTerms === true && res.data.Profile.setChooseProfile === true) {
+                    } else if (res.data.Profile.setRoleDescription === false && res.data.Profile.setAcceptTerms === true && res.data.Profile.setChooseProfile === true && res.data.Profile.ChooseWorker === true && res.data?.Profile?.role?.roleName === null) {
+                        dispatch(setProfileId(res.data.Profile._id))
+                        dispatch(setProfileRole(''))
+                        dispatch(setRoleDescription(''))
+                        dispatch(setDreamName(''))
+                        navigate('/pickrole')
+                    }
+                    else if (res.data.Profile.setRoleDescription === false && res.data.Profile.setAcceptTerms === true && res.data.Profile.setChooseProfile === true && res.data?.Profile?.role.roleName !== null) {
                         dispatch(setProfileId(res.data.Profile._id))
                         dispatch(setProfileRole(res.data.Profile.role.roleName))
                         dispatch(setRoleDescription(''))
@@ -58,6 +65,7 @@ const Dashboard = () => {
                 }
                 setLoading(false); // Set loading to false after terms check
             } catch (error) {
+                console.log(error);
                 if (error.response.data.message === 'Error Verifying Token') {
                     toast.error('session expired')
                     setTimeout(() => {
@@ -73,7 +81,7 @@ const Dashboard = () => {
 
         if (token) {
             checkTerms();
-        }else{
+        } else {
             toast.error('You\'re not authorised')
             setTimeout(() => {
                 navigate('/')

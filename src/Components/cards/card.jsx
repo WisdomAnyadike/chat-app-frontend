@@ -15,15 +15,15 @@ const Card = ({ role, description }) => {
 
     return (
         <>
-            <button onClick={() => handleSubmit()} class="card1" href="#">
-                <h6> <b> {role} </b> </h6>
-                <small class="small"> {description}</small>
-                <div class="go-corner" href="#">
-                    <div class="go-arrow">
-                        →
-                    </div>
+          
+            <div class="card">
+                <div class="content">
+                    <h2 class="title">{role}</h2>
+                    <p class="copy">{description}</p>
+                    <button onClick={() => handleSubmit()} class="btn">Choose Role</button>
                 </div>
-            </button>
+            </div>
+
 
 
             <Modal modal={modal} role={role} />

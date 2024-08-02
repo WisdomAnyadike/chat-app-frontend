@@ -11,12 +11,12 @@ import Loader from '../loader/Loader'
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import { setDreamName, setProfileId, setProfileRole, setRoleDescription } from '../Redux/FirstProfileSlice'
+import Modal from '../modal/modal'
 
 
 const Progress = () => {
     const token = useSelector(state => state.tokenSlice.token)
     const role = useSelector(state => state.firstProfileSlice.profileObj.roleName)
-    // const [acceptTerms, setAcceptTerms] = useState(false)
     const profileId = useSelector(state => state.firstProfileSlice.profileObj.profileId)
     const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
@@ -44,7 +44,14 @@ const Progress = () => {
                         dispatch(setProfileId(res.data.Profile._id))
                         dispatch(setProfileRole(''))
                         navigate('/chooseTeam')
-                    } else if (res.data.Profile.setRoleDescription === false && res.data.Profile.setAcceptTerms === true && res.data.Profile.setChooseProfile === true) {
+                    } else if (res.data.Profile.setRoleDescription === false && res.data.Profile.setAcceptTerms === true && res.data.Profile.setChooseProfile === true && res.data.Profile.ChooseWorker === true && res.data?.Profile?.role.roleName === null) {
+                        dispatch(setProfileId(res.data.Profile._id))
+                        dispatch(setProfileRole(''))
+                        dispatch(setRoleDescription(''))
+                        dispatch(setDreamName(''))
+                        navigate('/pickrole')
+                    }
+                    else if (res.data.Profile.setRoleDescription === false && res.data.Profile.setAcceptTerms === true && res.data.Profile.setChooseProfile === true && res.data?.Profile?.role.roleName !== null) {
                         dispatch(setProfileId(res.data.Profile._id))
                         dispatch(setProfileRole(res.data.Profile.role.roleName))
                         dispatch(setRoleDescription(''))
@@ -86,56 +93,58 @@ const Progress = () => {
     }, [token, navigate, dispatch]);
 
 
+    const [modal, setmodal] = useState(false)
+    const [theRole, setTheRole] = useState('')
+
+    const handleSubmit = (params) => {
+        setTheRole(params)
+        setmodal(true)
+    }
+
+
+    const closeModal = () => {
+        setmodal(false);
+    };
 
 
 
-    // useEffect(() => {
-    //     const checkTerms = async () => {
-    //         if (profileId && !loading) {
-    //             try {
-    //                 const res = await axios.get(`${API_ENDPOINT}/api/user/checkTerms/${profileId}`)
-    //                 if (res.data.status === true) {
-    //                     setAcceptTerms(true)
-    //                 }
-    //             } catch (error) {
-    //                 console.log(error);
-    //             }
-    //         }
-    //     }
 
-    //     checkTerms()
-    // }, [profileId])
 
-    const techRoles = [
-        { name: 'Concept Innovator', description: 'Develops and conceptualizes new ideas  for the product.' },
-        { name: 'Frontend Developer', description: 'Builds the visual and interactive aspects of a application.', icon: 'frontend-icon.png' },
-        { name: 'Backend Developer', description: 'Handles the server-side logic and database interactions.', icon: 'backend-icon.png' },
-        { name: 'Product Manager', description: 'Oversees product development & ensures alignment with goals.', icon: 'pm-icon.png' },
-        { name: 'UI/UX Designer', description: 'Designs user interfaces and user experiences.', icon: 'uiux-icon.png' },
-        { name: 'Data Scientist', description: 'Analyzes data to extract insights and inform decisions.', icon: 'datascientist-icon.png' },
-        { name: 'QA Engineer', description: 'Ensures the quality & functionality of the product through testing.', icon: 'qa-icon.png' },
-        { name: 'Marketing Specialist', description: 'Promotes the product and drives user acquisition.', icon: 'marketing-icon.png' },
+    const cards = [
+        { title: 'Dreamer', role: 'Concept Innovator', copy: 'Develops and conceptualizes new ideas and creative solutions for the product', button: 'Choose Role' },
+        { title: 'Worker', role: 'Worker', copy: ' Performs specific tasks or duties to help build and develop the product or service', button: 'Choose Role' },
+        { title: 'Investor', role: 'Investor', copy: 'Provides capital and resources to fund and support product development.', button: 'Choose Role' }
     ];
 
     if (loading) {
         return <Loader props={'Dreams Loading...'} />; // Add a loading state
     }
 
-    // if (acceptTerms) {
-    //     return <Loader props={`Please wait...  <Link to={role === 'Concept Innovator' ? '/description' : '/dashboard'}> <button> next </button> </Link>`} />
-    // }
+
 
     return (
+
         <DashboardNav  >
-            <div class="d-flex justify-content-around align-items-center flex-column " style={{ width: '100%' }}>
+            <div class="d-flex justify-content-around align-items-center flex-column " style={{ width: '100%', overflowY: 'scroll' }}>
 
                 <h4 className='mt-4 mb-3' style={{ color: '#286aff', fontWeight: 900 }}>  Choose Your Role ? </h4>
 
-                <div className='d-flex mb-1 align-items-center flex-wrap justify-content-around' style={{ minHeight: "350px", maxHeight: '450px', width: '100%', overflowY: 'scroll' }}>
-                    {techRoles.map((role, index) => (
-                        <Card key={index} role={role.name} description={role.description} />
-                    ))}
-                </div>
+                <main class="page-content">
+
+                    {cards.map(({ title, copy, button, role }, index) =>
+                        <div key={index} class="card">
+                            <div class="content">
+                                <h2 class="title">{role}</h2>
+                                <p class="copy">{copy}</p>
+                                <button onClick={() => handleSubmit(role)} class="btn">{button}</button>
+                            </div>
+
+                        </div>
+                    )}
+
+                    {modal && theRole ? <Modal modal={modal} role={theRole} closeModal={closeModal} /> : ''}
+
+                </main>
                 <div style={{ backgroundColor: '#00000000' }}>
 
 

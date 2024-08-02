@@ -98,7 +98,9 @@ const Auth = () => {
 
                     <div class="signup">
                         <form action="" onSubmit={(e) => handleSignUp(e)}>
-                            <label for="chk" className='mb-4' style={{color: '#A8A3CB'}} aria-hidden="true"> Dreams </label>
+                            <label for="chk" className='mb-4' style={{ color: '#A8A3CB' }} aria-hidden="true">   <h2 className="title d-flex align-items-center " style={{fontWeight:"700"}}>
+                                <span className="gradient-text" style={{color:'#8071a8'}}>Dreams</span>
+                            </h2></label>
                             <input type="text" onChange={(e) => setusername(e.target.value)} name="txt" placeholder="User name" required="" />
                             <input type="email" onChange={(e) => setemail(e.target.value)} name="email" placeholder="Email" required="" />
 

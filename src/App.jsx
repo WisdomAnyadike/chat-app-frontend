@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import Chat from './Components/chatpage'
 import Login from './Components/login/Login'
-import Welcome from './Components/chatwelcome/Welcome'
+
 import Chatbox from './Components/chatbox/Chatbox'
 import Dashboard from './Components/dashboard/dashboard'
 import DashboardHome from './Components/dashboard/dashboardHome'
@@ -20,6 +19,8 @@ import { useSelector } from 'react-redux'
 import Auth from './Components/auth/Auth'
 import Resume from './Components/resume/Resume'
 import ChatApp from './Components/chatbox/Chat'
+import PickRole from './Components/pickRole/PickRole'
+import LandingPage from './Pages/LandingPage'
 
 function App() {
   const roleName = useSelector(state => state.firstProfileSlice.profileObj.roleName)
@@ -31,11 +32,9 @@ function App() {
         <Route path='/createProfile' element={<CreateProfile />} />
         <Route path='/chooseTeam' element={<Progress />} />
         <Route path='/description' element={<Description />} />
-        <Route path='/chat' element={<Chat />} >
-          <Route index element={<Welcome />} />
-
-          <Route path="/chat/:name" element={<Chatbox />} />
-        </Route>
+        <Route path='/pickrole' element={<PickRole />} />
+        <Route path='/home' element={<LandingPage/>} />
+     
         <Route path="/dashboard" element={<Dashboard />} >
           {roleName === 'Concept Innovator' ? <Route index element={<DashboardProfile />} /> : <Route index element={<DashboardProduct />} />}
           <Route path='/dashboard/Ideas' element={<DashboardProduct />} />
@@ -45,12 +44,12 @@ function App() {
           <Route path='/dashboard/Admin' element={<Admin />} />
           <Route path='/dashboard/jobProfile' element={<JobProfile />} />
           <Route path='/dashboard/Inbox' element={<DashboardInbox />} >
-          <Route index element={<Chatbox />} />
-          <Route path="/dashboard/Inbox/:userTexted/:userTexting" element={<ChatApp />} />
-        </Route>
+            <Route index element={<Chatbox />} />
+            <Route path="/dashboard/Inbox/:userTexted/:userTexting" element={<ChatApp />} />
+          </Route>
 
         </Route>
-        
+
 
         <Route path='/dashboard/resume/:Id' element={<Resume />} />
 

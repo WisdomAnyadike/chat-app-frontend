@@ -41,7 +41,14 @@ const CreateProfile = () => {
                         dispatch(setProfileId(res.data.Profile._id))
                         dispatch(setProfileRole(''))
                         navigate('/chooseTeam')
-                    } else if (res.data.Profile.setRoleDescription === false && res.data.Profile.setAcceptTerms === true && res.data.Profile.setChooseProfile === true) {
+                    } else if (res.data.Profile.setRoleDescription === false && res.data.Profile.setAcceptTerms === true && res.data.Profile.setChooseProfile === true && res.data.Profile.ChooseWorker === true && res.data?.Profile?.role.roleName === null) {
+                        dispatch(setProfileId(res.data.Profile._id))
+                        dispatch(setProfileRole(''))
+                        dispatch(setRoleDescription(''))
+                        dispatch(setDreamName(''))
+                        navigate('/pickrole')
+                    }
+                    else if (res.data.Profile.setRoleDescription === false && res.data.Profile.setAcceptTerms === true && res.data.Profile.setChooseProfile === true && res.data?.Profile?.role.roleName !== null) {
                         dispatch(setProfileId(res.data.Profile._id))
                         dispatch(setProfileRole(res.data.Profile.role.roleName))
                         dispatch(setRoleDescription(''))
@@ -74,13 +81,12 @@ const CreateProfile = () => {
 
         if (token) {
             checkTerms();
-        }else{
+        } else {
             toast.error('You\'re not authorised')
             setTimeout(() => {
                 navigate('/')
             }, 3000)
         }
-        
     }, [token, navigate, dispatch]);
 
     // useEffect(() => {

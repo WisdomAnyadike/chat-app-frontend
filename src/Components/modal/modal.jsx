@@ -10,48 +10,70 @@ import { toast, ToastContainer } from 'react-toastify'
 import axios from 'axios'
 
 
-const Modal = ({ modal, role }) => {
+const Modal = ({ modal, role, closeModal }) => {
     const profileId = useSelector(state => state.firstProfileSlice.profileObj.profileId)
     const [loading, setLoading] = useState(false)
-    const [openModal, setModalOpen] = useState(modal)
+    const [openModal, setModalOpen] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     useEffect(() => {
         setModalOpen(modal)
-    }, [modal ])
+    }, [modal])
 
 
 
 
     const handleSubmit = async (terms) => {
         if (terms) {
-            try {
-                setLoading(true)
-                dispatch(setProfileRole(`${role}`))
-                console.log('im here');
-                const res = await axios.get(`${API_ENDPOINT}/api/user/setTerms/${profileId}/${role}`)
-                if (res.data.status === true) {
+            if (role !== 'Worker') {
+                try {
+                    setLoading(true)
+                    dispatch(setProfileRole(`${role}`))
+                    console.log('im here');
+
+                    const res = await axios.get(`${API_ENDPOINT}/api/user/setTerms/${profileId}/${role}`)
+                    if (res.data.status === true) {
+                        setLoading(false)
+                        if (role === 'Concept Innovator') {
+                            toast.success('Terms accepted success')
+                            setTimeout(() => {
+                                navigate('/description')
+                            }, 3000);
+                        } else {
+                            toast.success('Terms accepted success')
+                            setTimeout(() => {
+                                navigate('/dashboard')
+                            }, 3000);
+                        }
+                    }
+
+
+
+                } catch (error) {
                     setLoading(false)
-                    if (role === 'Concept Innovator') {
-                        toast.success('Terms accepted success')
+                    setModalOpen(false)
+                    console.log(error)
+                }
+
+            } else {
+                try {
+                    setLoading(true)
+                    const res = await axios.get(`${API_ENDPOINT}/api/user/setWorker/${profileId}`)
+                    if (res.data.status === true) {
+                        setLoading(false)
+                        toast.success('worker terms success')
                         setTimeout(() => {
-                            navigate('/description')
-                        }, 3000);
-                    } else {
-                        toast.success('Terms accepted success')
-                        setTimeout(() => {
-                            navigate('/dashboard')
+                            navigate('/pickRole')
                         }, 3000);
                     }
+
+                } catch (error) {
+                    setLoading(false)
+                    setModalOpen(false)
+                    console.log(error)
                 }
-            } catch (error) {
-                setLoading(false)
-                setModalOpen(false)
-                console.log(error)
             }
-
-
         } else {
             setModalOpen(false)
 
@@ -74,7 +96,7 @@ const Modal = ({ modal, role }) => {
                         </svg>
                         Terms and Services
                     </h5>
-                    <button onClick={() => setModalOpen(false)} class="icon-button">
+                    <button onClick={closeModal} class="icon-button">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path fill="currentColor" d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />

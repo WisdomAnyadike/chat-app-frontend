@@ -15,7 +15,6 @@ const Description = () => {
   const token = useSelector(state => state.tokenSlice.token)
   const roleName = useSelector(state => state.firstProfileSlice.profileObj.roleName)
   const profileId = useSelector(state => state.firstProfileSlice.profileObj.profileId)
-  // const [isDescriptionSet, setDescription] = useState(false)
   const [loading, setLoading] = useState(true);
   const [loadbutton, setLoadButton] = useState(false);
   const dispatch = useDispatch();
@@ -43,7 +42,14 @@ const Description = () => {
             dispatch(setProfileId(res.data.Profile._id))
             dispatch(setProfileRole(''))
             navigate('/chooseTeam')
-          } else if (res.data.Profile.setRoleDescription === false && res.data.Profile.setAcceptTerms === true && res.data.Profile.setChooseProfile === true) {
+          } else if (res.data.Profile.setRoleDescription === false && res.data.Profile.setAcceptTerms === true && res.data.Profile.setChooseProfile === true && res.data.Profile.ChooseWorker === true && res.data?.Profile?.role.roleName === null) {
+            dispatch(setProfileId(res.data.Profile._id))
+            dispatch(setProfileRole(''))
+            dispatch(setRoleDescription(''))
+            dispatch(setDreamName(''))
+            navigate('/pickrole')
+          }
+          else if (res.data.Profile.setRoleDescription === false && res.data.Profile.setAcceptTerms === true && res.data.Profile.setChooseProfile === true && res.data?.Profile?.role.roleName !== null) {
             dispatch(setProfileId(res.data.Profile._id))
             dispatch(setProfileRole(res.data.Profile.role.roleName))
             dispatch(setRoleDescription(''))
