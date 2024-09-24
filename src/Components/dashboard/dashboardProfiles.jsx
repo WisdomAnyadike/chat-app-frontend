@@ -153,9 +153,11 @@ const DashboardProfile = () => {
                                 <span class="status active">Active</span>
                             </div>
 
-                            <div class="product-cell price"><button style={{ height: '30px' }} class="d-flex align-items-center justify-content-center btn btn-success"> edit </button></div>
+                            <div class="product-cell category">
+                            
+                            <button style={{ height: '30px' }} class="d-flex align-items-center justify-content-center btn btn-success"> edit   </button></div>
 
-                            <div class="product-cell price"><button disabled style={{ height: '30px' }} class="d-flex align-items-center justify-content-center btn btn-light"> activate </button></div>
+                            <div class="product-cell category"><button disabled style={{ height: '30px' }} class="d-flex align-items-center justify-content-center btn btn-light"> activate </button></div>
 
                             <div class="product-cell price"><button style={{ height: '30px' }} class="d-flex align-items-center justify-content-center btn btn-danger"> delete </button></div>
 

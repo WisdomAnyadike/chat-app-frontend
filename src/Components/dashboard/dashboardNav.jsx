@@ -3,17 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import '/src/Components/dashboard/nav.scss'
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { setToken } from '../Redux/tokenSlice';
+import { IoLogOut } from "react-icons/io5";
+import { setDreamName, setProfileId, setProfileRole, setRoleDescription } from '../Redux/FirstProfileSlice';
 
 const DashboardNav = ({ children, props }) => {
-    // const navigate = useNavigate()
 
-    // const handleSubmit = () => {
-    //     if (props == undefined) {
-    //         navigate('/dashboard')
-    //     } else if (props === 'Profile') {
-    //         navigate('/chooseTeam')
-    //     }
-    // }
     const [dashboard, setDashboard] = useState(false);
     const profileObj = useSelector(state => state.firstProfileSlice.profileObj.roleName)
     console.log(profileObj);
@@ -40,6 +35,19 @@ const DashboardNav = ({ children, props }) => {
         navigate(`/dashboard/${tabId}`)
     };
 
+    const handleLogOut = () => {
+        toast.success("logged out successfully")
+        dispatch(setProfileId(''))
+        dispatch(setProfileRole(''))
+        dispatch(setRoleDescription(''))
+        dispatch(setDreamName(''))
+        dispatch(setToken(''))
+        setTimeout(() => {
+            navigate('/')
+        }, 2000);
+
+    }
+
 
 
     useEffect(() => {
@@ -56,16 +64,7 @@ const DashboardNav = ({ children, props }) => {
         };
     }, []);
 
-    // let handleButton = () => {
-    //     if (props === 'Dreams' || props === 'Profiles' || props === 'Profile') {
-    //         return `Add ${props}`
-    //     } else if (props == undefined) {
-    //         return 'Next'
-    //     }
 
-    //     return 'Submit'
-
-    // }
 
     return (
         <div class="app-content" style={{ height: '100vh', width: '100vw' }} >
@@ -73,17 +72,17 @@ const DashboardNav = ({ children, props }) => {
                 <header class="app-content offcanvas-menu ">
                     <input type="checkbox" id="toogle-menu" />
 
-                    <label for="toogle-menu" class="toogle-open">
+                    { props &&     <label for="toogle-menu" class="toogle-open">
                         <span className='bg-light'></span>
-                    </label>
+                    </label>}
 
-                    <nav>
-                        <div >
+                    <nav> 
+                     <div >
                             <a href="#"> <i class="fab fa-css3-alt"></i>offcanvas </a>
                             <label for="toogle-menu" class="toogle-close">
                                 <span> </span>
                             </label>
-                        </div>
+                        </div> 
                         <ul>
                             {
                                 dashboard ? " " : <>
@@ -132,6 +131,13 @@ const DashboardNav = ({ children, props }) => {
                                     </a>
                                 </li>
                             }
+
+                            <li  onClick={handleLogOut} class={`sidebar-list-item ${activeTab === 'jobprofile' ? 'active' : ''}`}>
+                                    <a href="#">
+                                    <IoLogOut className="me-2" color='#101827' />
+                                        <span> Log Out</span>
+                                    </a>
+                                </li>
                         </ul>
                     </nav>
                 </header>
@@ -146,9 +152,7 @@ const DashboardNav = ({ children, props }) => {
                     </svg>
                 </button>
 
-                {/* <button onClick={handleSubmit} class="app-content-headerButton">
-                    {handleButton()}
-                </button> */}
+
             </div>
             {children}
         </div>

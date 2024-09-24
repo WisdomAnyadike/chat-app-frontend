@@ -240,13 +240,13 @@ const Admin = () => {
                                 <span class="cell-label">Status:</span>
                                 <span class="status"> pending </span>
                             </div> */}
-                            <div class="product-cell price"> <span class="cell-label">Resume:</span><a href={data?.cvUrl} target='blank' > View resume </a></div>
+                            <div class="product-cell category"> <span class="cell-label">Resume:</span><a href={data?.cvUrl} target='blank' > View resume </a></div>
 
-                            <div class="product-cell price"><span class="cell-label">Accept:</span>
+                            <div class="product-cell category"><span class="cell-label">Accept:</span>
 
                                 <button onClick={() => sendResponse('accept', data?.userId._id, data?.profileId._id, data?.profileId.role.roleName)} style={{ height: '30px' }} class="d-flex align-items-center justify-content-center btn btn-success"> accept </button></div>
 
-                            <div class="product-cell price"> <span class="cell-label"> Portfolio :</span><a href={data?.portfolioUrl} target='blank' > View </a></div>
+                            <div class="product-cell category"> <span class="cell-label"> Portfolio :</span><a href={data?.portfolioUrl} target='blank' > View </a></div>
 
                             <div class="product-cell price"><span class="cell-label">Reject:</span>
 

@@ -149,19 +149,12 @@ const Description = () => {
     return <Loader props={'Dreams Loading...'} />; // Add a loading state
   }
 
-  // if (roleName !== "Concept Innovator") {
-  //   return <div> page not found <Link to="/dashboard"> <button> dashboard</button> </Link> </div>
-  // }
-
-  // if (isDescriptionSet) {
-  //   return <Loader props={`Please wait... <Link to="/dashboard"> <button> dashboard</button> </Link>`} />
-  // }
 
   return (
     <DashboardNav>
       <div class="row d-flex justify-content-center align-items-center rows">
 
-        <div class="col-md-6">
+        <div class="col-md-4 "  >
 
 
           <div class="card">
@@ -169,7 +162,7 @@ const Description = () => {
 
             <div class="text-center">
 
-              <img src="https://t4.ftcdn.net/jpg/07/89/52/35/240_F_789523513_vvIHyfampf0bnXOZlGTXRXIfhAEQd7pP.jpg" width="200" />
+              <img width={100} height={250} src="https://t4.ftcdn.net/jpg/07/89/52/35/240_F_789523513_vvIHyfampf0bnXOZlGTXRXIfhAEQd7pP.jpg"  />
               <span class="d-block mt-3"> Share your idea name & Idea with us , Provide a consise (brief and clear ) description of your concept </span>
 
               <div class="mx-5">

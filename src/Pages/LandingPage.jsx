@@ -5,6 +5,7 @@ import Nav from '../Components/Navbar/Nav'
 
 
 
+
 const LandingPage = () => {
     const scrollRef = useRef(null);
     return (
@@ -12,6 +13,7 @@ const LandingPage = () => {
             <div ref={scrollRef} style={{ width: '100%', height: '100vh', overflowY: "scroll" }}>
                 <Nav scrollRef={scrollRef} />
                 <Section1 />
+                
                
 
               

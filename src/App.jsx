@@ -28,12 +28,12 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/' element={<Auth />} />
+        <Route path='/home' element={<Auth />} />
         <Route path='/createProfile' element={<CreateProfile />} />
         <Route path='/chooseTeam' element={<Progress />} />
         <Route path='/description' element={<Description />} />
         <Route path='/pickrole' element={<PickRole />} />
-        <Route path='/home' element={<LandingPage/>} />
+        <Route path='/' element={<LandingPage/>} />
      
         <Route path="/dashboard" element={<Dashboard />} >
           {roleName === 'Concept Innovator' ? <Route index element={<DashboardProfile />} /> : <Route index element={<DashboardProduct />} />}

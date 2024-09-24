@@ -89,22 +89,8 @@ const CreateProfile = () => {
         }
     }, [token, navigate, dispatch]);
 
-    // useEffect(() => {
-    //     const checkProfile = async () => {
-    //         if (profileId && !loading) { // Ensure this runs only after loading is complete
-    //             try {
-    //                 const res = await axios.get(`${API_ENDPOINT}/api/user/checkProfile/${profileId}`);
-    //                 if (res.data.status) {
-    //                     setChooseProfile(true);
-    //                 }
-    //             } catch (error) {
-    //                 console.error(error);
-    //             }
-    //         }
-    //     };
-
-    //     checkProfile();
-    // }, [profileId, loading]);
+   
+  
 
     const [value, setValue] = useState('');
 
@@ -139,9 +125,7 @@ const CreateProfile = () => {
         return <Loader props={'Dreams Loading...'} />; // Add a loading state
     }
 
-    // if (chooseProfile) {
-    //     return <Loader props={`Please wait... <Link to='/chooseTeam'> <button>Go forward</button> </Link>`} />    
-    // }
+   
 
     return (
         <DashboardNav props='Profile'>
@@ -162,7 +146,7 @@ const CreateProfile = () => {
                     <div className="row mt-4 g-1 px-4 mb-5">
                         <div className="col-md-2">
                             <div className="card-inner p-3 d-flex flex-column align-items-center">
-                                <img src="https://i.imgur.com/Mb8kaPV.png" width="50" />
+                                <img src="https://i.imgur.com/Mb8kaPV.png" width="50" height={'50'} />
                                 <div onClick={(e) => setValue(e.target.innerText)} className="text-center mg-text">
                                     <span className="mg-text">Creative strategist</span>
                                 </div>
@@ -170,7 +154,7 @@ const CreateProfile = () => {
                         </div>
                         <div className="col-md-2">
                             <div className="card-inner p-3 d-flex flex-column align-items-center">
-                                <img src="https://i.imgur.com/ueLEPGq.png" width="50" />
+                                <img src="https://i.imgur.com/ueLEPGq.png" width="50" height={'50'} />
                                 <div onClick={(e) => setValue(e.target.innerText)} className="text-center mg-text">
                                     <span className="mg-text">Money maker</span>
                                 </div>
@@ -178,7 +162,7 @@ const CreateProfile = () => {
                         </div>
                         <div className="col-md-2">
                             <div className="card-inner p-3 d-flex flex-column align-items-center">
-                                <img src="https://i.imgur.com/tmqv0Eq.png" width="50" />
+                                <img src="https://i.imgur.com/tmqv0Eq.png" width="50" height={'50'} />
                                 <div onClick={(e) => setValue(e.target.innerText)} className="text-center mg-text">
                                     <span className="mg-text">Delivery manager</span>
                                 </div>
@@ -186,7 +170,7 @@ const CreateProfile = () => {
                         </div>
                         <div className="col-md-2">
                             <div className="card-inner p-3 d-flex flex-column align-items-center">
-                                <img src="https://i.imgur.com/D0Sm15i.png" width="50" />
+                                <img src="https://i.imgur.com/D0Sm15i.png" width="50" height={'50'} />
                                 <div onClick={(e) => setValue(e.target.innerText)} className="text-center mg-text">
                                     <span className="mg-text">Product user</span>
                                 </div>
@@ -194,7 +178,7 @@ const CreateProfile = () => {
                         </div>
                         <div className="col-md-2">
                             <div className="card-inner p-3 d-flex flex-column align-items-center">
-                                <img src="https://i.imgur.com/Z7BJ8Po.png" width="50" />
+                                <img src="https://i.imgur.com/Z7BJ8Po.png" width="50" height={'50'} />
                                 <div onClick={(e) => setValue(e.target.innerText)} className="text-center mg-text">
                                     <span className="mg-text">Value returner</span>
                                 </div>
@@ -202,7 +186,7 @@ const CreateProfile = () => {
                         </div>
                         <div className="col-md-2">
                             <div className="card-inner p-3 d-flex flex-column align-items-center">
-                                <img src="https://i.imgur.com/YLsQrn3.png" width="50" />
+                                <img src="https://i.imgur.com/YLsQrn3.png" width="50" height={'50'} />
                                 <div onClick={(e) => setValue(e.target.innerText)} className="text-center mg-text">
                                     <span className="mg-text">Guaranteed tester</span>
                                 </div>

@@ -127,11 +127,7 @@ input::placeholder {
   font-weight: 500;
 }
 
-input[type="email"] {
-  color: rgba(255, 255, 255, 0.7);
-  font-weight: 500;
-  font-size: 1rem;
-}
+
 
 input[type="email"]:focus {
   border: transparent;
