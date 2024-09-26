@@ -6,7 +6,7 @@ const Nav = ({ scrollRef }) => {
 
     const navigate = useNavigate()
     function signUp() {
-        navigate('/')
+        navigate('/home')
     }
 
     const [isScrolled, setIsScrolled] = useState(false);
