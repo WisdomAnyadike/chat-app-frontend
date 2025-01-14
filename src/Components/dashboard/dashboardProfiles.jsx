@@ -28,14 +28,7 @@ const DashboardProfile = () => {
                 }
 
             } catch (error) {
-                setLoading(false)
-                if (error.response.data.message === 'Error Verifying Token') {
-                    toast.error('session expired')
-                    setTimeout(() => {
-                        navigate('/')
-                    }, 5000)
-                    return
-                }
+                setLoading(false)          
                 toast.error(error)
             
             }
@@ -195,7 +188,7 @@ const DashboardProfile = () => {
                     <div class="product-cell stock"><span class="cell-label">Stock:</span>46</div>
                     <div class="product-cell price"><span class="cell-label">Price:</span>$710</div>
                 </div> */}
-                <ToastContainer />
+               
             </div>
         </DashboardNav>
 

@@ -63,19 +63,21 @@ const Dashboard = () => {
                 } else {
                     toast.error('Could not process request, please refresh the page.');
                 }
-                setLoading(false); // Set loading to false after terms check
+
             } catch (error) {
                 console.log(error);
                 if (error.response.data.message === 'Error Verifying Token') {
                     toast.error('session expired')
                     setTimeout(() => {
                         navigate('/')
-                    }, 5000)
+                    }, 2000)
                 } else {
                     console.error(error);
                     toast.error('An error occurred while checking terms.');
                 }
-                setLoading(false); // Set loading to false after error
+
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -87,6 +89,8 @@ const Dashboard = () => {
                 navigate('/')
             }, 3000)
         }
+
+
     }, [token, navigate, dispatch]);
 
 

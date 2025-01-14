@@ -146,7 +146,8 @@ const Admin = () => {
                 } catch (error) {
 
                     if (error.response.data.message === 'Error Verifying Token') {
-                        toast.error('session expired')
+
+                       toast.error('session expired')
                         setTimeout(() => {
                             navigate('/')
                         }, 5000)
