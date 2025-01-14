@@ -69,7 +69,7 @@ const DashboardNav = ({ children, props }) => {
     return (
         <div class="app-content" style={{ height: '100vh', width: '100vw' }} >
             <div class="app-content-header">
-                {/* <header class="app-content offcanvas-menu ">
+                <header class="app-content offcanvas-menu ">
                     <input type="checkbox" id="toogle-menu" />
 
                     { props &&     <label for="toogle-menu" class="toogle-open">
@@ -140,7 +140,7 @@ const DashboardNav = ({ children, props }) => {
                                 </li>
                         </ul>
                     </nav>
-                </header> */}
+                </header>
 
 
 
